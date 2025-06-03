@@ -1,0 +1,24 @@
+name: Scale Down Deployments
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # 4:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  scale-down:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set replicas to 0
+        run: |
+          find . -name 'deployment.yml' -exec sed -i 's/replicas: [0-9]\+/replicas: 0/g' {} +
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git commit -am "Scale all deployments to 0 replicas [auto]"
+          git push

@@ -1,0 +1,14 @@
+# Cloud Config Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-config-service
+  namespace: ecommerce
+spec:
+  selector:
+    app: cloud-config
+  ports:
+  - protocol: TCP
+    port: 9296
+    targetPort: 9296
+  type: ClusterIP

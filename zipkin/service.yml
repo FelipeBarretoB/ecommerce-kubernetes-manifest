@@ -1,0 +1,15 @@
+# Zipkin Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-service
+  namespace: ecommerce
+spec:
+  selector:
+    app: zipkin
+  ports:
+  - protocol: TCP
+    port: 9411
+    targetPort: 9411
+    nodePort: 30001
+  type: NodePort
