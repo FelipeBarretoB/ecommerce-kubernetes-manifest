@@ -1,0 +1,46 @@
+name: Scale Up Deployments in Order
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # 9:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  scale-up:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scale up foundational services
+        run: |
+          for svc in mySql zipkin cloud-config service-discovery; do
+            if [ -f "$svc/deployment.yml" ]; then
+              sed -i 's/replicas: [0-9]\+/replicas: 1/g' $svc/deployment.yml
+            fi
+          done
+
+      - name: Commit and push foundational services
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git commit -am "Scale up foundational services to 1 replica [auto]" || echo "No changes to commit"
+          git push
+
+      - name: Wait for foundational services to be ready
+        run: sleep 120
+
+      - name: Scale up remaining services
+        run: |
+          for svc in api-gateway favourite-service frontend order-service payment-service product-service proxy-client shipping-service user-service; do
+            if [ -f "$svc/deployment.yml" ]; then
+              sed -i 's/replicas: [0-9]\+/replicas: 1/g' $svc/deployment.yml
+            fi
+          done
+
+      - name: Commit and push remaining services
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git commit -am "Scale up remaining services to 1 replica [auto]" || echo "No changes to commit"
+          git push
