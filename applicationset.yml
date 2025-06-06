@@ -5,10 +5,11 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - directory:
-        # Escanea subdirectorios del repo
-        path: .
-        recurse: true
+    - git:
+        repoURL: 'https://github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git'
+        revision: HEAD
+        directories:
+          - path: '*'
   template:
     metadata:
       name: '{{path.basename}}'
