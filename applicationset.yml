@@ -15,7 +15,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: 'https://github.com/TU_USUARIO/TU_REPO.git'  # ← Reemplaza esto
+        repoURL: 'https://github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git'  
         targetRevision: HEAD
         path: '{{path}}'
       destination:
