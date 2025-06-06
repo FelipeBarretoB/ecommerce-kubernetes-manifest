@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ecommerce-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - directory:
+        # Escanea subdirectorios del repo
+        path: .
+        recurse: true
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/TU_USUARIO/TU_REPO.git'  # ← Reemplaza esto
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: ecommerce
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
