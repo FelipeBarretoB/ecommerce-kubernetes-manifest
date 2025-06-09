@@ -17,6 +17,8 @@ This repository contains all the Kubernetes deployment and service manifests for
 - **shipping-service**: Handles shipping and delivery operations.
 - **user-service**: Manages user accounts and authentication.
 - **zipkin**: Distributed tracing server for monitoring microservices.
+- **jenkins**: Continuous integration and automation server.
+- **sonar**: SonarQube server for code quality and static analysis.
 
 ## Usage
 
@@ -40,4 +42,4 @@ The `mySql` directory also includes a `mysql-pvc.yml` for persistent storage.
 
 - Update image tags as needed for your environment.
 - Adjust resource requests/limits based on your cluster capacity.
-- Some services expose NodePorts for external access (e.g., frontend, api-gateway, zipkin, service-discovery).
+- Some services expose NodePorts for external access (e.g., frontend, api-gateway, zipkin, service-discovery, jenkins, sonar).
