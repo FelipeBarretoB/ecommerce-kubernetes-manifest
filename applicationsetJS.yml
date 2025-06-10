@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: jenkinssonar-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: 'https://github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git'
+        revision: HEAD
+        directories:
+          - path: 'jenkins'
+          - path: 'sonar'
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git'  
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: ecommerce
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

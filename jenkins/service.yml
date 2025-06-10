@@ -4,12 +4,14 @@ metadata:
   name: jenkins
   namespace: jenkinssoanr
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
       nodePort: 30080
-    - port: 50000
+    - name: agent
+      port: 50000
       targetPort: 50000
       nodePort: 30500
   selector:
