@@ -23,11 +23,11 @@ spec:
               value: "true"
           resources:
             requests:
-              memory: "2Gi"
+              memory: "1Gi"
               cpu: "500m"
             limits:
-              memory: "4Gi"
-              cpu: "2"
+              memory: "2Gi"
+              cpu: "1"
           volumeMounts:
             - name: sonar-data
               mountPath: /opt/sonarqube/data
