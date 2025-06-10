@@ -24,10 +24,10 @@ spec:
           resources:
             requests:
               memory: "1Gi"
-              cpu: "500m"
+              cpu: "250m"
             limits:
               memory: "2Gi"
-              cpu: "1"
+              cpu: "500m"
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
