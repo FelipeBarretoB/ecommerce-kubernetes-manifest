@@ -13,6 +13,8 @@ spec:
       labels:
         app: sonar
     spec:
+     securityContext:
+        fsGroup: 1000
       containers:
         - name: sonar
           image: sonarqube:lts
