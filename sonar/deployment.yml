@@ -23,6 +23,8 @@ spec:
           env:
             - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
               value: "true"
+            - name: SONAR_WEB_CONTEXT
+              value: /sonar
           resources:
             requests:
               memory: "1Gi"
