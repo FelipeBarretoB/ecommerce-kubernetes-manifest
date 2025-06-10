@@ -21,6 +21,9 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 50000
+          env:
+            - name: JENKINS_OPTS
+              value: --prefix=/jenkins
           resources:
             requests:
               memory: "1Gi"
