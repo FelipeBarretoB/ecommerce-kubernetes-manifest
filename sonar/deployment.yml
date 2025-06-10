@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonar
+  template:
+    metadata:
+      labels:
+        app: sonar
+    spec:
+      containers:
+        - name: sonar
+          image: sonarqube:lts
+          ports:
+            - containerPort: 9000
+          env:
+            - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
+              value: "true"
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+          volumeMounts:
+            - name: sonar-data
+              mountPath: /opt/sonarqube/data
+      volumes:
+        - name: sonar-data
+          persistentVolumeClaim:
+            claimName: sonar-data-pvc

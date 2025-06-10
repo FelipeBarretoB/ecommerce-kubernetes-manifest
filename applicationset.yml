@@ -9,7 +9,13 @@ spec:
         repoURL: 'https://github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git'
         revision: HEAD
         directories:
-          - path: '*'
+          - path: '*-service'
+          - path: 'api-gateway'
+          - path: 'frontend'
+          - path: 'mySql'
+          - path: 'zipkin'
+          - path: 'cloud-config'
+          - path: 'service-discovery'
   template:
     metadata:
       name: '{{path.basename}}'
