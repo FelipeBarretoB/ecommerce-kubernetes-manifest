@@ -13,7 +13,7 @@ spec:
       labels:
         app: sonar
     spec:
-     securityContext:
+      securityContext:
         fsGroup: 1000
       containers:
         - name: sonar
