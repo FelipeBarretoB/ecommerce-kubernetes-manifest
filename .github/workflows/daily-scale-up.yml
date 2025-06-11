@@ -32,7 +32,7 @@ jobs:
 
       - name: Scale up remaining services
         run: |
-          for svc in api-gateway favourite-service frontend order-service payment-service product-service proxy-client shipping-service user-service; do
+          for svc in api-gateway favourite-service frontend order-service payment-service product-service proxy-client shipping-service user-service sonar jenkins; do
             if [ -f "$svc/deployment.yml" ]; then
               sed -i 's/replicas: [0-9]\+/replicas: 1/g' $svc/deployment.yml
             fi
