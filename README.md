@@ -101,34 +101,51 @@ the second command will show you the public IP of the ingress controller.
 create the ingress resource for ArgoCD
 
 ```yaml
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jenkins-sonar-ingress
   namespace: jenkinssoanr
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
+  ingressClassName: nginx
   rules:
-    - host: <your-ingress-ip>.nip.io
+    - host: <PLACE HOLDER> # replace with your public IP
       http:
         paths:
-          - path: /jenkins
-            pathType: Prefix
+          - path: /jenkins(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: jenkins
                 port:
                   number: 8080
-          - path: /sonar
-            pathType: Prefix
+```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonar-ingress
+  namespace: jenkinssoanr
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: <PLACE HOLDER> # replace with your public IP
+      http:
+        paths:
+          - path: /sonar(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: sonar
                 port:
                   number: 9000
 ```
+
 
 and add the public IP in the `hosts` section of the `applicationJS.yaml` 
 
@@ -147,3 +164,5 @@ ingress-nginx   ingress-nginx-controller-6bb485db4b-8cqr9          1/1     Runni
 ```
 
 it's normal for the first two pods to be in `Completed` state, the last one should be in `Running` state.
+
+Now, you pray to whatever deity you believe in, and hope that everything works as expected.
