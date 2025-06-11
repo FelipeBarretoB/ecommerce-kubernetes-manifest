@@ -17,7 +17,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts
+          image: jenkinsci/blueocean:latest
           ports:
             - containerPort: 8080
             - containerPort: 50000
