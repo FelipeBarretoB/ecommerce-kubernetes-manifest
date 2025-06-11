@@ -17,7 +17,7 @@ data:
   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://service-discovery-service:8761/eureka/"
   
   # Configuración del servidor de configuración
-  SPRING_CONFIG_IMPORT: "optional:configserver:http://cloud-config-service:9296"
+  SPRING_CONFIG_IMPORT: "optional:configserver:http://cloud-config-service:9296/"
   
   # Configuración de base de datos
   MYSQL_HOST: "mysql"
