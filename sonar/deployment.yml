@@ -20,6 +20,8 @@ spec:
           image: sonarqube:lts
           ports:
             - containerPort: 9000
+          args:
+            - "-Dsonar.web.context=/sonar"
           env:
             - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
               value: "true"

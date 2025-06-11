@@ -4,11 +4,10 @@ metadata:
   name: sonar
   namespace: jenkinssoanr
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: http
       port: 9000
       targetPort: 9000
-      nodePort: 30900
   selector:
     app: sonar
