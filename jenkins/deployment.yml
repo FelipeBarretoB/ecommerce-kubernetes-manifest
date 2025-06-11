@@ -23,7 +23,7 @@ spec:
             - containerPort: 50000
           env:
             - name: JENKINS_OPTS
-              value: --prefix=/jenkins
+              value: "--prefix=/"
           resources:
             requests:
               memory: "1Gi"
