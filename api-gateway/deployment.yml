@@ -21,29 +21,18 @@ spec:
         image: pipebarreto/api-gateway:stage
         ports:
         - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: ecommerce-config
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "dev"
-        - name: SPRING_ZIPKIN_BASE_URL
-          value: "http://zipkin-service:9411"
-        - name: EUREKA_CLIENT_REGION
-          value: "default"
-        - name: EUREKA_CLIENT_AVAILIBILITY_ZONES_DEFAULT
-          value: "myzone"
-        - name: EUREKA_CLIENT_SERVICEURL_MYZONE
-          value: "http://service-discovery-service:8761/eureka/"
-        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          value: "http://service-discovery-service:8761/eureka/"
         - name: CLIENT_HOST
-          value: "http://frontend:30000"
-        - name: SPRING_CONFIG_IMPORT
-          value: optional:configserver:http://cloud-config-service:9296
+          value: "http://frontend:30000"        
         - name: EUREKA_INSTANCE_HOSTNAME
           value: "api-gateway"
         resources:
           requests:
             memory: "512Mi"
-            cpu: "500m"
+            cpu: "250m"
           limits:
             memory: "1024Mi"
-            cpu: "1"
+            cpu: "500m"

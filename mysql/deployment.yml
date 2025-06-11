@@ -4,7 +4,7 @@ metadata:
   name: mysql
   namespace: ecommerce
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
@@ -18,9 +18,12 @@ spec:
         image: mysql:8.0
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: password123  #151 change this to a secure password
+          value: password123  # Considerar usar un secreto para almacenar esto
         - name: MYSQL_DATABASE
-          value: ecommerce_stage_db
+          valueFrom:
+            configMapKeyRef:
+              name: ecommerce-config
+              key: MYSQL_DATABASE
         ports:
         - containerPort: 3306
         volumeMounts:
@@ -28,11 +31,11 @@ spec:
           mountPath: /var/lib/mysql
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "512Mi"
+            cpu: "250m"
           limits:
-            memory: "2Gi"
-            cpu: "1"
+            memory: "1024Mi"
+            cpu: "500m"
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:

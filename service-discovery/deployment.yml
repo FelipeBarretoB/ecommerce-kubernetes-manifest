@@ -21,13 +21,12 @@ spec:
         image: pipebarreto/service-discovery:stage
         ports:
         - containerPort: 8761
+        envFrom:
+        - configMapRef:
+            name: ecommerce-config
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "dev"
-        - name: SPRING_ZIPKIN_BASE_URL
-          value: "http://zipkin-service:9411"
-        - name: SPRING_CONFIG_IMPORT
-          value: optional:configserver:http://cloud-config-service:9296/
+        - name: EUREKA_INSTANCE_HOSTNAME
+          value: "service-discovery"
         resources:
           requests:
             memory: "1Gi"
