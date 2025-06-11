@@ -45,7 +45,6 @@ The `mySql` directory also includes a `mysql-pvc.yml` for persistent storage.
 - Some services expose NodePorts for external access (e.g., frontend, api-gateway, zipkin, service-discovery, jenkins, sonar).
 
 
-
 ## Steps to Deploy applicationJS (argocd for jenkins and sonar)
 
 This was based in the following tutorial: https://github.com/HoussemDellai/aks-course/tree/main/290_gitops_argocd  

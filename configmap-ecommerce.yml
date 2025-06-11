@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-config
+  namespace: ecommerce
+data:
+  # Configuración general del entorno
+  SPRING_PROFILES_ACTIVE: "dev"
+  
+  # Configuración de Zipkin para trazabilidad
+  SPRING_ZIPKIN_BASE_URL: "http://zipkin-service:9411"
+  
+  # Configuración de Eureka para descubrimiento de servicios
+  EUREKA_CLIENT_REGION: "default"
+  EUREKA_CLIENT_AVAILIBILITY_ZONES_DEFAULT: "myzone"
+  EUREKA_CLIENT_SERVICEURL_MYZONE: "http://service-discovery-service:8761/eureka/"
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://service-discovery-service:8761/eureka/"
+  
+  # Configuración del servidor de configuración
+  SPRING_CONFIG_IMPORT: "optional:configserver:http://cloud-config-service:9296/"
+  
+  # Configuración de base de datos
+  MYSQL_HOST: "mysql"
+  MYSQL_PORT: "3306"
+  MYSQL_DATABASE: "ecommerce_stage_db"
