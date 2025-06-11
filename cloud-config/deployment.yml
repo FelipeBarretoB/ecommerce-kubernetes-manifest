@@ -25,6 +25,8 @@ spec:
         - configMapRef:
             name: ecommerce-config
         env:
+        - name: SPRING_CONFIG_IMPORT
+          value: ""
         - name: EUREKA_INSTANCE_HOSTNAME
           value: "cloud-config"
         resources:
