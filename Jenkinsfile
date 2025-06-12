@@ -11,6 +11,7 @@ node {
                     git config user.email pipe.barreto07@gmail.com
                     git config user.name FelipeBarretoB
                     git checkout main
+                    git pull --rebase origin main
                     cd ${NAME}
                     sed -i 's+pipebarreto/${NAME}.*+pipebarreto/${NAME}:${DOCKERTAG}+g' deployment.yml
                     echo  'Sucessfully updated deployment.yml with image: pipebarreto/${NAME}:${DOCKERTAG}'
