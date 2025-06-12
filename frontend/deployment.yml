@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: pipebarreto/frontend:latest
+          image: pipebarreto/frontend:1.0.0
           ports:
             - containerPort: 80
           resources:
