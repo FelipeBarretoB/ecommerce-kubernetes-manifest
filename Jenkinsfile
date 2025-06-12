@@ -22,12 +22,13 @@ node {
     stage('Validate Manifests') {
         script {
             sh '''
-            cd ${NAME}
-            yamllint .
-            kubeval deployment.yml
-            kubeval service.yml
-            kubectl apply --dry-run=client -f deployment.yml
-            kubectl apply --dry-run=client -f service.yml
+                export PATH=$PATH:/usr/bin
+                cd ${NAME}
+                yamllint .
+                kubeval deployment.yml
+                kubeval service.yml
+                kubectl apply --dry-run=client -f deployment.yml
+                kubectl apply --dry-run=client -f service.yml
             '''
         }
     }
