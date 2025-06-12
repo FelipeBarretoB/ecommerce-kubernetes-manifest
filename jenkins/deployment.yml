@@ -17,7 +17,7 @@ spec:
         runAsUser: 0
       containers:
         - name: jenkins
-          image: pipebarreto/jenkins-docker:lts
+          image: pipebarreto/jenkins:lts
           ports:
             - containerPort: 8080
             - containerPort: 50000
@@ -34,13 +34,8 @@ spec:
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
-            - name: docker-socket
-              mountPath: /var/run/docker.sock
       volumes:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-data-pvc
-        - name: docker-socket
-          hostPath:
-            path: /var/run/docker.sock
         
