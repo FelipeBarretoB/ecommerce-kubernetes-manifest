@@ -14,7 +14,7 @@ spec:
         app: jenkins
     spec:
       securityContext:
-        fsGroup: 0
+        runAsUser: 0
       containers:
         - name: jenkins
           image: pipebarreto/jenkins-docker:lts
