@@ -13,7 +13,7 @@ node {
                     git checkout main
                     git pull --rebase origin main
                     cd ${NAME}
-                    sed -i 's+pipebarreto/${NAME}.*+pipebarreto/${NAME}:${DOCKERTAG}+g' deployment.yml
+                    sed -i "s|image: pipebarreto/${NAME}:.*|image: pipebarreto/${NAME}:${DOCKERTAG}|g" deployment.yml
                     echo  'Sucessfully updated deployment.yml with image: pipebarreto/${NAME}:${DOCKERTAG}'
                     cat deployment.yml
             '''
