@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: favourite-service
-        image: pipebarreto/favourite-service:stage
+        image: pipebarreto/favourite-service:1.0.0-dev.9
         ports:
         - containerPort: 8800
         envFrom:
