@@ -17,6 +17,8 @@ node {
                     sed -i 's+pipebarreto/${NAME}.*+pipebarreto/${NAME}:${DOCKERTAG}+g' deployment.yml
                     echo  'Sucessfully updated deployment.yml with image: pipebarreto/${NAME}:${DOCKERTAG}'
                     cat deployment.yml
+                    cd ..
+                    ls
                     git add .
                     git commit -m 'Done by Jenkins Job updatemanifest: ${env.BUILD_NUMBER}'
                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/FelipeBarretoB/ecommerce-kubernetes-manifest main
