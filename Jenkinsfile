@@ -19,7 +19,8 @@ node {
                     cat deployment.yml
                     cd ..
                     ls
-                    git add .
+                    git add ${NAME}/deployment.yml
+                    git pull --rebase origin main
                     git commit -m 'Done by Jenkins Job updatemanifest: ${env.BUILD_NUMBER}'
                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/FelipeBarretoB/ecommerce-kubernetes-manifest main
                     """
