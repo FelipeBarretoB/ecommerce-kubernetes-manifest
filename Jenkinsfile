@@ -9,7 +9,7 @@ node {
         script {
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                    sh """
+                    sh '''
                     git config user.email pipe.barreto07@gmail.com
                     git config user.name FelipeBarretoB
                     git checkout main
@@ -23,7 +23,7 @@ node {
                     git pull --rebase origin main
                     git commit -m 'Done by Jenkins Job updatemanifest: ${env.BUILD_NUMBER}' || echo 'No changes to commit'
                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git HEAD:main
-                    """
+                    '''
                 }
             }
         }
