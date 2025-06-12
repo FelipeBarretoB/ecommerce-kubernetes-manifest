@@ -1,3 +1,4 @@
+---
 # Service Discovery Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -17,21 +18,20 @@ spec:
         app: service-discovery
     spec:
       containers:
-      - name: service-discovery
-        image: pipebarreto/service-discovery:stage
-        ports:
-        - containerPort: 8761
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "service-discovery"
-        resources:
-          requests:
-            memory: "1Gi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
-
+        - name: service-discovery
+          image: pipebarreto/service-discovery:stage
+          ports:
+            - containerPort: 8761
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "service-discovery"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"

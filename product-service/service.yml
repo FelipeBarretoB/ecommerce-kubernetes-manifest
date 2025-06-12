@@ -1,3 +1,4 @@
+---
 # product Service Service
 apiVersion: v1
 kind: Service
@@ -8,7 +9,7 @@ spec:
   selector:
     app: product-service
   ports:
-  - protocol: TCP
-    port: 8500
-    targetPort: 8500
+    - protocol: TCP
+      port: 8500
+      targetPort: 8500
   type: ClusterIP

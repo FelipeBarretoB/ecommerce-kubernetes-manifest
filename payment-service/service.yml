@@ -1,3 +1,4 @@
+---
 # Order Service Service
 apiVersion: v1
 kind: Service
@@ -8,7 +9,7 @@ spec:
   selector:
     app: payment-service
   ports:
-  - protocol: TCP
-    port: 8400
-    targetPort: 8400
+    - protocol: TCP
+      port: 8400
+      targetPort: 8400
   type: ClusterIP

@@ -1,3 +1,4 @@
+---
 # user Service Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -17,20 +18,20 @@ spec:
         app: user-service
     spec:
       containers:
-      - name: user-service
-        image: pipebarreto/user-service:stage
-        ports:
-        - containerPort: 8700
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "user-service"
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: user-service
+          image: pipebarreto/user-service:stage
+          ports:
+            - containerPort: 8700
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "user-service"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"

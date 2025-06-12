@@ -1,3 +1,4 @@
+---
 # User Service Service
 apiVersion: v1
 kind: Service
@@ -8,7 +9,7 @@ spec:
   selector:
     app: user-service
   ports:
-  - protocol: TCP
-    port: 8700
-    targetPort: 8700
+    - protocol: TCP
+      port: 8700
+      targetPort: 8700
   type: ClusterIP

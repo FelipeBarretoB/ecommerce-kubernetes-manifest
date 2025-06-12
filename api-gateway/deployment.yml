@@ -1,3 +1,4 @@
+---
 # API Gateway Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -17,22 +18,22 @@ spec:
         app: api-gateway
     spec:
       containers:
-      - name: api-gateway
-        image: pipebarreto/api-gateway:stage
-        ports:
-        - containerPort: 8080
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: CLIENT_HOST
-          value: "http://frontend:30000"        
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "api-gateway"
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"
+        - name: api-gateway
+          image: pipebarreto/api-gateway:stage
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: CLIENT_HOST
+              value: "http://frontend:30000"
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "api-gateway"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"

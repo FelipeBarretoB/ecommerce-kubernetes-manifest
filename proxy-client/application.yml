@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,20 +17,20 @@ spec:
         app: proxy-client
     spec:
       containers:
-      - name: proxy-client
-        image: pipebarreto/proxy-client:stage
-        ports:
-        - containerPort: 8900
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "proxy-client"
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: proxy-client
+          image: pipebarreto/proxy-client:stage
+          ports:
+            - containerPort: 8900
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "proxy-client"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
