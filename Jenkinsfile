@@ -1,50 +1,25 @@
-def services = [
-  [name: 'api-gateway', path: 'api-gateway', manifest: 'api-gateway/deployment.yml', dockerfile: 'api-gateway/Dockerfile'],
-  [name: 'user-service', path: 'user-service', manifest: 'user-service/deployment.yml', dockerfile: 'user-service/Dockerfile'],
-  [name: 'product-service', path: 'product-service', manifest: 'product-service/deployment.yml', dockerfile: 'product-service/Dockerfile'],
-  [name: 'favourite-service', path: 'favourite-service', manifest: 'favourite-service/deployment.yml', dockerfile: 'favourite-service/Dockerfile'],
-  [name: 'order-service', path: 'order-service', manifest: 'order-service/deployment.yml', dockerfile: 'order-service/Dockerfile'],
-  [name: 'shipping-service', path: 'shipping-service', manifest: 'shipping-service/deployment.yml', dockerfile: 'shipping-service/Dockerfile'],
-  [name: 'payment-service', path: 'payment-service', manifest: 'payment-service/deployment.yml', dockerfile: 'payment-service/Dockerfile'],
-  [name: 'proxy-client', path: 'proxy-client', manifest: 'proxy-client/deployment.yml', dockerfile: 'proxy-client/Dockerfile']
-]
+node {
+    def app
 
-pipeline {
-  agent any
-  parameters {
-    string(name: 'DOCKERTAG', defaultValue: '', description: 'Docker image tag to deploy')
-  }
-  environment {
-    REGISTRY = "pipebarreto"
-  }
-  stages {
-    stage('Update Manifests') {
-      steps { //TODO: #5 add credentials in Jenkins
-        withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
-          script {
-            services.each { svc ->
-              sh """
-                sed -i "s|image: $REGISTRY/${svc.name}:.*|image: $REGISTRY/${svc.name}:${DOCKERTAG}|" ${svc.manifest}
-                git config user.email pipe.barreto07@gmail.com
-                git config user.name FelipeBarretoB
-                git add \${svc.manifest}
-                git commit -m "ci: update ${svc.name} image tag to ${DOCKERTAG}" || echo "No changes to commit"
-                git remote set-url origin https://${TOKEN}@github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git
-                git push || echo "No remote push"
-              """
-            }
-          }
-        }
-      }
+    stage('Clone repository') {
+        checkout scm
     }
-    stage('Deploy to Kubernetes') {
-      steps {
+
+    stage('Update GIT') {
         script {
-          services.each { svc ->
-            sh "kubectl apply -f ${svc.manifest}"
-          }
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    sh "git config user.email pipe.barreto07@gmail.com"
+                    sh "git config user.name FelipeBarretoB"
+                    sh "cat deployment.yml"
+                    sh "sed -i 's+pipebarreto/${NAME}.*+pipebarreto/${NAME}:${DOCKERTAG}+g' deployment.yml"
+                    sh "echo  'Sucessfully updated deployment.yml with image: pipebarreto/${NAME}:${DOCKERTAG}'"
+                    //sh "cat deployment.yml"
+                    //sh "git add ."
+                    //sh "git commit -m 'Done by Jenkins Job updatemanifest: ${env.BUILD_NUMBER}'"
+                    //sh "git push @github.com/${GIT_USERNAME}/jenkins-gitops-k8s.git">https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/ecommerce-kubernetes-manifest HEAD:main"
+                }
+            }
         }
-      }
     }
-  }
 }
