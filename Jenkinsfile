@@ -20,7 +20,7 @@ node {
     }
 
     stage('Validate Manifests') {
-        steps {
+        script {
             sh '''
             cd ${NAME}
             yamllint .
