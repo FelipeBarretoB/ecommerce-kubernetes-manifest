@@ -2,5 +2,8 @@ FROM jenkins/jenkins:lts
 USER root
 RUN apt-get update && \
     apt-get install -y python3-pip curl yamllint && \
-    curl -sSL -o /usr/local/bin/kubeval https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64 && \
-    chmod +x /usr/local/bin/kubeval
+    curl -L -o /tmp/kubeconform.tar.gz https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz && \
+    tar -xzf /tmp/kubeconform.tar.gz -C /tmp && \
+    mv /tmp/kubeconform /usr/local/bin/kubeconform && \
+    chmod +x /usr/local/bin/kubeconform && \
+    rm /tmp/kubeconform.tar.gz
