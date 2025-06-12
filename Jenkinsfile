@@ -42,7 +42,9 @@ node {
                     git config user.name FelipeBarretoB
                     git checkout main
                     git add ${NAME}/deployment.yml
-                    git commit -m 'Done by Jenkins Job updatemanifest: "${env.BUILD_NUMBER}"' || echo 'No changes to commit'
+                    '''
+                    sh "git commit -m 'Done by Jenkins Job updatemanifest: ${env.BUILD_NUMBER}' || echo 'No changes to commit'"
+                    sh '''
                     git pull --rebase origin main
                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/FelipeBarretoB/ecommerce-kubernetes-manifest.git HEAD:main
                     '''
