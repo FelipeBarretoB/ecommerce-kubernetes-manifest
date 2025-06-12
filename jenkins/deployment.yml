@@ -17,7 +17,7 @@ spec:
         runAsUser: 0
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts
+          image: pipebarreto/jenkins:lts
           ports:
             - containerPort: 8080
             - containerPort: 50000
