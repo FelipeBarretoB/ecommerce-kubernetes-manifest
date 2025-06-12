@@ -1,3 +1,4 @@
+---
 # Favourite Service Service
 apiVersion: v1
 kind: Service
@@ -8,7 +9,7 @@ spec:
   selector:
     app: favourite-service
   ports:
-  - protocol: TCP
-    port: 8800
-    targetPort: 8800
+    - protocol: TCP
+      port: 8800
+      targetPort: 8800
   type: ClusterIP

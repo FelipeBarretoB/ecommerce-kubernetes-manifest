@@ -1,3 +1,4 @@
+---
 # favourite Service Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -7,7 +8,7 @@ metadata:
   labels:
     app: favourite-service
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: favourite-service
@@ -17,20 +18,20 @@ spec:
         app: favourite-service
     spec:
       containers:
-      - name: favourite-service
-        image: pipebarreto/favourite-service:1.0.0-dev.9
-        ports:
-        - containerPort: 8800
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "favourite-service"
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: favourite-service
+          image: pipebarreto/favourite-service:1.0.0-dev.9
+          ports:
+            - containerPort: 8800
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "favourite-service"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
