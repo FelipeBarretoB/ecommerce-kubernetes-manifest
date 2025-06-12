@@ -1,3 +1,4 @@
+---
 # Order Service Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -17,20 +18,20 @@ spec:
         app: order-service
     spec:
       containers:
-      - name: order-service
-        image: pipebarreto/order-service:stage
-        ports:
-        - containerPort: 8300
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "order-service"
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: order-service
+          image: pipebarreto/order-service:stage
+          ports:
+            - containerPort: 8300
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "order-service"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"

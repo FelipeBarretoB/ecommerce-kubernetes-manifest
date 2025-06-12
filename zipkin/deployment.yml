@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,10 +17,10 @@ spec:
         app: zipkin
     spec:
       containers:
-      - name: zipkin
-        image: openzipkin/zipkin
-        ports:
-        - containerPort: 9411
-        env:
-        - name: SERVER_ADDRESS
-          value: "0.0.0.0"
+        - name: zipkin
+          image: openzipkin/zipkin
+          ports:
+            - containerPort: 9411
+          env:
+            - name: SERVER_ADDRESS
+              value: "0.0.0.0"

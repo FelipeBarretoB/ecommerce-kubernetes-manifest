@@ -1,3 +1,4 @@
+---
 # shipping Service Service
 apiVersion: v1
 kind: Service
@@ -8,7 +9,7 @@ spec:
   selector:
     app: shipping-service
   ports:
-  - protocol: TCP
-    port: 8600
-    targetPort: 8600
+    - protocol: TCP
+      port: 8600
+      targetPort: 8600
   type: ClusterIP

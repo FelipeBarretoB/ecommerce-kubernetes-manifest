@@ -1,3 +1,4 @@
+---
 # shipping Service Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -17,20 +18,20 @@ spec:
         app: shipping-service
     spec:
       containers:
-      - name: shipping-service
-        image: pipebarreto/shipping-service:stage
-        ports:
-        - containerPort: 8600
-        envFrom:
-        - configMapRef:
-            name: ecommerce-config
-        env:
-        - name: EUREKA_INSTANCE_HOSTNAME
-          value: "shipping-service"
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: shipping-service
+          image: pipebarreto/shipping-service:stage
+          ports:
+            - containerPort: 8600
+          envFrom:
+            - configMapRef:
+                name: ecommerce-config
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "shipping-service"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"

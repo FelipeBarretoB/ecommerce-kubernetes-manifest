@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,14 +17,14 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: pipebarreto/frontend:latest
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"
+        - name: frontend
+          image: pipebarreto/frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"

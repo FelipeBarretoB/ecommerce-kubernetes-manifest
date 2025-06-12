@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,4 +39,3 @@ spec:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-data-pvc
-        

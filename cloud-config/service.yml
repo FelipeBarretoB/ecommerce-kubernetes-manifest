@@ -1,3 +1,4 @@
+---
 # Cloud Config Service
 apiVersion: v1
 kind: Service
@@ -8,7 +9,7 @@ spec:
   selector:
     app: cloud-config
   ports:
-  - protocol: TCP
-    port: 9296
-    targetPort: 9296
+    - protocol: TCP
+      port: 9296
+      targetPort: 9296
   type: ClusterIP
