@@ -19,8 +19,7 @@ node {
                     cat deployment.yml
                     git add .
                     git commit -m 'Done by Jenkins Job updatemanifest: ${env.BUILD_NUMBER}'
-                    git push @github.com/${GIT_USERNAME}/ecommerce-kubernetes-manifest.git">https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/ecommerce-kubernetes-manifest HEAD:main"
-                    """
+                    git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/FelipeBarretoB/ecommerce-kubernetes-manifest main
                 }
             }
         }
