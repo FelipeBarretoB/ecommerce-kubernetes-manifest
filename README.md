@@ -151,7 +151,8 @@ and add the public IP in the `hosts` section of the `applicationJS.yaml`
 then apply the ingress manifest:
 
 ```sh
-kubectl apply -f jenkins-sonar-ingress.yml
+kubectl apply -f jenkins-ingress.yml
+kubectl apply -f sonar-ingress.yml
 ```
 
 if you have problems check that the ingress controller is running
@@ -165,3 +166,15 @@ ingress-nginx   ingress-nginx-controller-6bb485db4b-8cqr9          1/1     Runni
 it's normal for the first two pods to be in `Completed` state, the last one should be in `Running` state.
 
 Now, you pray to whatever deity you believe in, and hope that everything works as expected.
+
+## Jenkinsfile
+
+The Jenkinsfile is a declarative pipeline that is called when ever a newer image is pushed to the docker registry. It will access this repository and add the new image tag to the deployment manifests of the changed services and push it to git. 
+This will trigger ArgoCD to update the deployment in the AKS cluster.
+
+### requirements
+- You need to give the jenkins your git credentials, so it can access the repository and push the changes.
+- The jenkins pipeline has two parameters: 
+  - NAME: the name of the service that has changed
+  - DOCKER_TAG: the new image tag to be used in the deployment manifest.
+if you want to use this pipeline, be sure to point at your repository and change the parameters accordingly.
