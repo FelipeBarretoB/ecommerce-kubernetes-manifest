@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: shipping-service
-          image: pipebarreto/shipping-service:stage
+          image: pipebarreto/shipping-service:1.0.0-dev.10
           ports:
             - containerPort: 8600
           envFrom:
