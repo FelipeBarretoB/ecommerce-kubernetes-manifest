@@ -187,24 +187,34 @@ This pipeline is used to scale up the application during the day and scale it do
 heres the pipeline for scale down:
 
 ```mermaid
-flowchart TD
-    A[Start: Scheduled or Manual Trigger] --> B[Checkout repository]
-    B --> C[Set replicas to 0 in all deployment.yml files]
-    C --> D[Commit and push changes]
-    D --> E[End]
+sequenceDiagram
+    participant Scheduler as Scheduler/Manual Trigger
+    participant GitHubActions
+    participant Repo as GitHub Repo
+
+    Scheduler->>GitHubActions: Trigger workflow (scheduled or manual)
+    GitHubActions->>Repo: Checkout repository
+    GitHubActions->>Repo: Set replicas to 0 in all deployment.yml files
+    GitHubActions->>Repo: Commit and push changes
+    GitHubActions-->>Scheduler: Workflow complete
 ```
 
 heres the pipeline for scale up:
 
 ```mermaid
-flowchart TD
-    A[Start: Scheduled or Manual Trigger] --> B[Checkout repository]
-    B --> C[Scale up foundational services - set replicas to 1]
-    C --> D[Commit and push foundational services]
-    D --> E[Wait 120 seconds for foundational services]
-    E --> F[Scale up remaining services - set replicas to 1]
-    F --> G[Commit and push remaining services]
-    G --> H[End]
+sequenceDiagram
+    participant Scheduler as Scheduler/Manual Trigger
+    participant GitHubActions
+    participant Repo as GitHub Repo
+
+    Scheduler->>GitHubActions: Trigger workflow (scheduled or manual)
+    GitHubActions->>Repo: Checkout repository
+    GitHubActions->>Repo: Scale up foundational services (set replicas to 1)
+    GitHubActions->>Repo: Commit and push foundational services
+    GitHubActions->>GitHubActions: Wait 120 seconds
+    GitHubActions->>Repo: Scale up remaining services (set replicas to 1)
+    GitHubActions->>Repo: Commit and push remaining services
+    GitHubActions-->>Scheduler: Workflow complete
 ```
 
 The only difference between the two pipelines is that the scale up pipeline waits 120 seconds for the foundational services to be up and running before scaling up the remaining services.
@@ -215,13 +225,16 @@ Now this pipeline is in charged of making sure the manifest files are up to date
 Also, it uses Kubeconform and ymallint to make sure the manifests are valid and conform to the kubernetes standards, this is why we use a custom jenkins image that includes the necessary plugins and tools to run this pipeline.
 
 ```mermaid
-flowchart TD
-    A[Start: Jenkins Trigger] --> B[Clone repository]
-    B --> C[Update GIT: set image tag in deployment.yml]
-    C --> D[Validate Manifests: yamllint & kubeconform]
-    D --> E[Configure git user]
-    E --> F[Add and commit deployment.yml]
-    F --> G[Pull --rebase and push to GitHub]
-    G --> H[End]
+sequenceDiagram
+    participant Jenkins as Jenkins
+    participant Repo as GitHub Repo
+
+    Jenkins->>Repo: Clone repository
+    Jenkins->>Repo: Update deployment.yml with new image tag
+    Jenkins->>Repo: Validate manifests (yamllint & kubeconform)
+    Jenkins->>Repo: Configure git user
+    Jenkins->>Repo: Add and commit deployment.yml
+    Jenkins->>Repo: Pull --rebase and push to GitHub
+    Jenkins-->>Jenkins: Pipeline End
 ```
 ---
