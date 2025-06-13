@@ -1,6 +1,6 @@
 # ecommerce-kubernetes-manifest
 
-This repository contains all the Kubernetes deployment and service manifests for the containers that make up the ecommerce application. Each service is organized in its own directory with corresponding `deployment.yml` and `service.yml` files.
+This repository contains all the Kubernetes deployment and service manifests for the containers that make up the ecommerce application, you can find the main file of this project [here](https://github.com/FelipeBarretoB/ecommerce-microservice-backend-app). Each service is organized in its own directory with corresponding `deployment.yml` and `service.yml` files. Some also include additional configuration files such as persistent volume claims for databases, sonar and jenkins.
 
 ## Services
 
@@ -17,7 +17,7 @@ This repository contains all the Kubernetes deployment and service manifests for
 - **shipping-service**: Handles shipping and delivery operations.
 - **user-service**: Manages user accounts and authentication.
 - **zipkin**: Distributed tracing server for monitoring microservices.
-- **jenkins**: Continuous integration and automation server.
+- **jenkins**: Continuous integration and automation server. Note that we use a costume jenkins image that includes the necessary plugins for this project. You can find the Dockerfile [here](/jenkins/Dockerfile).
 - **sonar**: SonarQube server for code quality and static analysis.
 
 ## Usage
@@ -165,3 +165,63 @@ ingress-nginx   ingress-nginx-controller-6bb485db4b-8cqr9          1/1     Runni
 it's normal for the first two pods to be in `Completed` state, the last one should be in `Running` state.
 
 Now, you pray to whatever deity you believe in, and hope that everything works as expected.
+
+### Important files
+
+#### note
+Because of azure students tier limitations, we have to clusters in different regions, US east has all of the app and Europe west has the jenkins and sonar services
+
+- `applicationsetJS.yml`: ArgoCD application manifest for deploying the jenkins and sonar application.
+
+- `applicationset.yml`: ArgoCD application manifest for ecommerce app.
+
+- `configmap-ecommerce.yml`: ConfigMap for the ecommerce application, containing environment variables and configurations.
+
+- `*-ingress.yml`: Again, because of azure limitations we had limited public ips, to solve this, we used nginx's ingress controller. All the ingress ips are defined in this files.
+
+## Pipelines
+
+### daily scale up and down
+This pipeline is used to scale up the application during the day and scale it down during the night, to save costs. It changes the amount of replicas from 1 to 0 during late night hours (11pm to 4am UTC-5) and then scales it back up to 1 during the day (4am to 11pm UTC-5). ArgosCD will catch the changes and apply them to the cluster.
+
+heres the pipeline for scale down:
+
+```mermaid
+flowchart TD
+    A[Start: Scheduled or Manual Trigger] --> B[Checkout repository]
+    B --> C[Set replicas to 0 in all deployment.yml files]
+    C --> D[Commit and push changes]
+    D --> E[End]
+```
+
+heres the pipeline for scale up:
+
+```mermaid
+flowchart TD
+    A[Start: Scheduled or Manual Trigger] --> B[Checkout repository]
+    B --> C[Scale up foundational services - set replicas to 1]
+    C --> D[Commit and push foundational services]
+    D --> E[Wait 120 seconds for foundational services]
+    E --> F[Scale up remaining services - set replicas to 1]
+    F --> G[Commit and push remaining services]
+    G --> H[End]
+```
+
+The only difference between the two pipelines is that the scale up pipeline waits 120 seconds for the foundational services to be up and running before scaling up the remaining services.
+
+### Jenkins pipeline
+
+Now this pipeline is in charged of making sure the manifest files are up to date with the latest changes in the dockerhub repositories, it's triggered when ever a new image is pushed to the dockerhub by the ecommerce pipelines.
+Also, it uses Kubeconform and ymallint to make sure the manifests are valid and conform to the kubernetes standards, this is why we use a custom jenkins image that includes the necessary plugins and tools to run this pipeline.
+
+```mermaid
+flowchart TD
+    A[Start: Jenkins Trigger] --> B[Clone repository]
+    B --> C[Update GIT: set image tag in deployment.yml]
+    C --> D[Validate Manifests: yamllint & kubeconform]
+    D --> E[Configure git user]
+    E --> F[Add and commit deployment.yml]
+    F --> G[Pull --rebase and push to GitHub]
+    G --> H[End]
+```
+---
