@@ -5,7 +5,7 @@ metadata:
   name: sonar
   namespace: jenkinssoanr
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: sonar
